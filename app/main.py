@@ -18,7 +18,8 @@ async def lifespan(app: FastAPI):
     Function that handles startup and shutdown events.
     https://fastapi.tiangolo.com/advanced/events/
     """
-    connection_manager.connect(settings.database_url)
+    connection_manager.setup(settings.database_url)
+    await connection_manager.open()
     yield
     await connection_manager.close()
 

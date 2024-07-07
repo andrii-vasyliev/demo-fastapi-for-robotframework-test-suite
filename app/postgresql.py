@@ -9,14 +9,20 @@ class DatabaseConnectionManager:
     def __init__(self):
         self._pool: AsyncConnectionPool | None = None
 
-    def connect(self, db_url: str, pool_config: dict[str, Any] = {}):
+    def setup(self, db_url: str, pool_config: dict[str, Any] = {}) -> None:
         if self._pool is not None:
             raise Exception("DatabaseConnectionManager is already initialized")
 
         pool_config.pop("conninfo", None)
         pool_config.pop("open", None)
 
-        self._pool = AsyncConnectionPool(conninfo=db_url, **pool_config)
+        self._pool = AsyncConnectionPool(conninfo=db_url, open=False, **pool_config)
+
+    async def open(self):
+        if self._pool is None:
+            raise Exception("DatabaseConnectionManager is not initialized")
+
+        await self._pool.open()
 
     async def close(self):
         if self._pool is None:
