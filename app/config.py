@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     reload: bool = True
     host: str = "127.0.0.1"
     port: int = 8000
+    workers: int = 4
     project_name: str = "Demo FastAPI project"
     oauth_token_secret: str = "my_secret"
 
