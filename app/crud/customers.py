@@ -6,6 +6,77 @@ from exceptions import AppException
 from schemas.api import CreateCustomerSchema, GetCustomerSchema, GetCustomersSchema
 
 
+CREATE_CUSTOMER_NOT_FETCHED: dict = {
+    "status_code": status.HTTP_500_INTERNAL_SERVER_ERROR,
+    "location": [
+        "db",
+        "create_customer",
+    ],
+    "message": "Customer not fetched",
+    "exc_type": "not_fetched",
+}
+
+CREATE_CUSTOMER_NOT_CREATED: dict = {
+    "status_code": status.HTTP_500_INTERNAL_SERVER_ERROR,
+    "location": [
+        "db",
+        "create_customer",
+    ],
+    "message": "Customer not created",
+    "exc_type": "not_created",
+}
+
+CREATE_CUSTOMER_ALREADY_EXIST: dict = {
+    "status_code": status.HTTP_409_CONFLICT,
+    "location": [
+        "db",
+        "create_customer",
+    ],
+    "message": "Customer already exist",
+    "exc_type": "bad_request",
+}
+
+GET_CUSTOMER_NOT_FETCHED: dict = {
+    "status_code": status.HTTP_500_INTERNAL_SERVER_ERROR,
+    "location": [
+        "db",
+        "get_customer",
+    ],
+    "message": "Customer not fetched",
+    "exc_type": "not_fetched",
+}
+
+GET_CUSTOMER_NOT_FOUND_404: dict = {
+    "status_code": status.HTTP_404_NOT_FOUND,
+    "location": [
+        "db",
+        "get_customer",
+    ],
+    "message": "Customer not found",
+    "exc_type": "not_found",
+}
+
+GET_CUSTOMER_NOT_FOUND_500: dict = {
+    "status_code": status.HTTP_500_INTERNAL_SERVER_ERROR,
+    "location": [
+        "db",
+        "get_customer",
+    ],
+    "message": "Customer not found",
+    "exc_type": "not_found",
+}
+
+GET_CUSTOMER_BAD_REQUEST: dict = {
+    "status_code": status.HTTP_400_BAD_REQUEST,
+    "location": [
+        "db",
+        "get_customer",
+    ],
+    "message": "At least one search parameter is required",
+    "exc_type": "bad_request",
+}
+
+
 async def create_customer(
     cursor: AsyncCursor, customer_data: CreateCustomerSchema
 ) -> GetCustomerSchema:
@@ -19,38 +90,14 @@ async def create_customer(
 
         record = await cursor.fetchone()
         if not record:
-            raise AppException(
-                status.HTTP_500_INTERNAL_SERVER_ERROR,
-                [
-                    "db",
-                    "create_customer",
-                ],
-                "Customer not fetched",
-                "not_fetched",
-            )
+            raise AppException(**CREATE_CUSTOMER_NOT_FETCHED)
 
         customer: GetCustomerSchema = record[0]
     except Exception as e:
         if isinstance(e, AssertFailure):
-            raise AppException(
-                status.HTTP_409_CONFLICT,
-                [
-                    "db",
-                    "create_customer",
-                ],
-                "Customer already exist",
-                "bad_request",
-            )
+            raise AppException(**CREATE_CUSTOMER_ALREADY_EXIST)
         else:
-            raise AppException(
-                status.HTTP_500_INTERNAL_SERVER_ERROR,
-                [
-                    "db",
-                    "create_customer",
-                ],
-                "Customer not created",
-                "not_created",
-            )
+            raise AppException(**CREATE_CUSTOMER_NOT_CREATED)
 
     return customer
 
@@ -68,38 +115,14 @@ async def get_customer_by_id(
 
         record = await cursor.fetchone()
         if not record:
-            raise AppException(
-                status.HTTP_500_INTERNAL_SERVER_ERROR,
-                [
-                    "db",
-                    "get_customer_by_id",
-                ],
-                "Customer not fetched",
-                "not_fetched",
-            )
+            raise AppException(**GET_CUSTOMER_NOT_FETCHED)
 
         customer: GetCustomerSchema = record[0]
     except Exception as e:
         if isinstance(e, NoDataFound):
-            raise AppException(
-                status.HTTP_404_NOT_FOUND,
-                [
-                    "db",
-                    "get_customer_by_id",
-                ],
-                "Customer not found",
-                "no_data_found",
-            )
+            raise AppException(**GET_CUSTOMER_NOT_FOUND_404)
         else:
-            raise AppException(
-                status.HTTP_500_INTERNAL_SERVER_ERROR,
-                [
-                    "db",
-                    "get_customer_by_id",
-                ],
-                "Customer not found",
-                "no_data_found",
-            )
+            raise AppException(**GET_CUSTOMER_NOT_FOUND_500)
 
     return customer
 
@@ -120,47 +143,15 @@ async def get_customers_by(
 
         record = await cursor.fetchone()
         if not record:
-            raise AppException(
-                status.HTTP_500_INTERNAL_SERVER_ERROR,
-                [
-                    "db",
-                    "get_customer_by",
-                ],
-                "Customer not fetched",
-                "not_fetched",
-            )
+            raise AppException(**GET_CUSTOMER_NOT_FETCHED)
 
         customers: GetCustomersSchema = record[0]
     except Exception as e:
         if isinstance(e, AssertFailure):
-            raise AppException(
-                status.HTTP_400_BAD_REQUEST,
-                [
-                    "db",
-                    "get_customer_by",
-                ],
-                "At least one search parameter is required",
-                "bad_request",
-            )
+            raise AppException(**GET_CUSTOMER_BAD_REQUEST)
         elif isinstance(e, NoDataFound):
-            raise AppException(
-                status.HTTP_404_NOT_FOUND,
-                [
-                    "db",
-                    "get_customer_by",
-                ],
-                "Customer not found",
-                "no_data_found",
-            )
+            raise AppException(**GET_CUSTOMER_NOT_FOUND_404)
         else:
-            raise AppException(
-                status.HTTP_500_INTERNAL_SERVER_ERROR,
-                [
-                    "db",
-                    "get_customer_by_id",
-                ],
-                "Customer not found",
-                "not_found",
-            )
+            raise AppException(**GET_CUSTOMER_NOT_FOUND_500)
 
     return customers
