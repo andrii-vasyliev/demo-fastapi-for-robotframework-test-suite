@@ -18,13 +18,13 @@ class DatabaseConnectionManager:
 
         self._pool = AsyncConnectionPool(conninfo=db_url, open=False, **pool_config)
 
-    async def open(self):
+    async def open(self) -> None:
         if self._pool is None:
             raise Exception("DatabaseConnectionManager is not initialized")
 
         await self._pool.open()
 
-    async def close(self):
+    async def close(self) -> None:
         if self._pool is None:
             raise Exception("DatabaseConnectionManager is not initialized")
 

@@ -2,6 +2,8 @@
 Custom Application exception
 """
 
+from typing import Any
+
 
 class AppException(Exception):
     def __init__(
@@ -12,7 +14,7 @@ class AppException(Exception):
         self._msg: str = message
         self._exc_type: str = exc_type
 
-    def content(self):
+    def content(self) -> dict[str, list[dict[str, Any]]]:
         return {
             "detail": [
                 {
@@ -22,6 +24,3 @@ class AppException(Exception):
                 }
             ]
         }
-
-    def __str__(self):
-        return f"[{self._exc_type}]: {self._location} -> {self._msg}"
