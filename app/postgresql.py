@@ -6,15 +6,18 @@ from fastapi import Depends
 
 
 class DatabaseConnectionManager:
-    def __init__(self):
+    def __init__(self) -> None:
         self._pool: AsyncConnectionPool | None = None
 
-    def setup(self, db_url: str, pool_config: dict[str, Any] = {}) -> None:
+    def setup(self, db_url: str, pool_config: dict[str, Any] | None = None) -> None:
         if self._pool is not None:
             raise Exception("DatabaseConnectionManager is already initialized")
 
-        pool_config.pop("conninfo", None)
-        pool_config.pop("open", None)
+        if pool_config:
+            pool_config.pop("conninfo", None)
+            pool_config.pop("open", None)
+        else:
+            pool_config = {}
 
         self._pool = AsyncConnectionPool(conninfo=db_url, open=False, **pool_config)
 
@@ -22,14 +25,21 @@ class DatabaseConnectionManager:
         if self._pool is None:
             raise Exception("DatabaseConnectionManager is not initialized")
 
-        await self._pool.open()
+        try:
+            await self._pool.open()
+        except Exception as e:
+            raise Exception("Unable to open DatabaseConnectionManager pool:", e)
 
     async def close(self) -> None:
         if self._pool is None:
             raise Exception("DatabaseConnectionManager is not initialized")
 
-        await self._pool.close()
-        self._pool = None
+        try:
+            await self._pool.close()
+        except Exception as e:
+            raise Exception("Unable to close DatabaseConnectionManager pool", e)
+        finally:
+            self._pool = None
 
     @contextlib.asynccontextmanager
     async def cursor(self) -> AsyncIterator[AsyncCursor]:
