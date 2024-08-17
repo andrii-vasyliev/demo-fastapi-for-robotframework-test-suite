@@ -12,27 +12,27 @@ Currently only customer management endpoint is implemented.
 
 1. Clone the repository:
 
-    git clone https://github.com/ZNenatzka/demo-fastapi-for-robotframework-test-suite
+    `git clone https://github.com/ZNenatzka/demo-fastapi-for-robotframework-test-suite`
 
 2. Navigate to the project directory:
 
-    cd demo-fastapi-for-robotframework-test-suite
+    `cd demo-fastapi-for-robotframework-test-suite`
 
 3. Create a virtual environment and activate it:
 
-    python -m venv .venv
+    `python -m venv .venv`
 
     On Linux, use
 
-    source .venv/bin/activate
+    `source .venv/bin/activate`
 
     On Windows, use
 
-    .venv\Scripts\activate
+    `.venv\Scripts\activate`
 
 4. Install the required dependencies:
 
-    pip install -r requirements.txt
+    `pip install -r requirements.txt`
 
 5. Set up the environment variables for the database connection and other configurations.
 
@@ -40,7 +40,7 @@ Currently only customer management endpoint is implemented.
 
 1. Start the development server:
 
-    uvicorn app.main:app --reload
+    `uvicorn app.main:app --reload`
 
     This will start the API server at `http://localhost:8000`.
 
