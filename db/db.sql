@@ -1,12 +1,12 @@
 /*
-It's assumed that "admin" administrator user exists in the PostgreSQL
+It's assumed that "postgres" is a superuser
 */
 
 -- Database: ecommerce
 -- DROP DATABASE IF EXISTS ecommerce;
 CREATE DATABASE ecommerce
     WITH
-    OWNER = admin
+    OWNER = postgres
     ENCODING = 'UTF8'
     LC_COLLATE = 'en_US.utf8'
     LC_CTYPE = 'en_US.utf8'
@@ -15,10 +15,16 @@ CREATE DATABASE ecommerce
     CONNECTION LIMIT = -1
     IS_TEMPLATE = False;
 
+
+/*
+Reconnect to the database "ecommerce" as the "postgres" user
+*/
+\c ecommerce postgres;
+
 CREATE SCHEMA IF NOT EXISTS ecommerce AUTHORIZATION pg_database_owner;
 GRANT ALL ON SCHEMA ecommerce TO pg_database_owner WITH GRANT OPTION;
 
-ALTER ROLE admin IN DATABASE ecommerce SET search_path TO ecommerce, public;
+ALTER ROLE postgres IN DATABASE ecommerce SET search_path TO ecommerce, public;
 
 -- create role "api" if it doesn't exist
 CREATE ROLE api WITH

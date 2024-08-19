@@ -1,6 +1,5 @@
 /*
-It's assumed that 'admin' administrator user exists in the PostgreSQL
-Connect to the created ecommerce DB as 'admin' user and create following objects:
+It's assumed that "postgres" is a superuser and db.sql scrpt has been ran
 */
 
 /*--------- Table: ecommerce.order_statuses ------------*/
@@ -15,13 +14,13 @@ CREATE TABLE IF NOT EXISTS ecommerce.order_statuses (
     CONSTRAINT "PK_ORDER_STATUS_ID" PRIMARY KEY (id)
 ) TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS ecommerce.order_statuses OWNER to admin;
+ALTER TABLE IF EXISTS ecommerce.order_statuses OWNER to postgres;
 
 REVOKE ALL ON TABLE ecommerce.order_statuses FROM api;
 
 REVOKE ALL ON TABLE ecommerce.order_statuses FROM robotfw;
 
-GRANT ALL ON TABLE ecommerce.order_statuses TO admin
+GRANT ALL ON TABLE ecommerce.order_statuses TO postgres
 WITH
 GRANT OPTION;
 
@@ -54,13 +53,13 @@ CREATE TABLE IF NOT EXISTS ecommerce.items (
     CONSTRAINT "PK_ITEM_ID" PRIMARY KEY (id)
 ) TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS ecommerce.items OWNER to admin;
+ALTER TABLE IF EXISTS ecommerce.items OWNER to postgres;
 
 REVOKE ALL ON TABLE ecommerce.items FROM api;
 
 REVOKE ALL ON TABLE ecommerce.items FROM robotfw;
 
-GRANT ALL ON TABLE ecommerce.items TO admin WITH GRANT OPTION;
+GRANT ALL ON TABLE ecommerce.items TO postgres WITH GRANT OPTION;
 
 GRANT UPDATE, SELECT, DELETE, INSERT ON TABLE ecommerce.items TO api;
 
@@ -106,13 +105,13 @@ CREATE TABLE IF NOT EXISTS ecommerce.customers (
     CONSTRAINT "PK_CUSTOMER_ID" PRIMARY KEY (id)
 ) TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS ecommerce.customers OWNER to admin;
+ALTER TABLE IF EXISTS ecommerce.customers OWNER to postgres;
 
 REVOKE ALL ON TABLE ecommerce.customers FROM api;
 
 REVOKE ALL ON TABLE ecommerce.customers FROM robotfw;
 
-GRANT ALL ON TABLE ecommerce.customers TO admin WITH GRANT OPTION;
+GRANT ALL ON TABLE ecommerce.customers TO postgres WITH GRANT OPTION;
 
 GRANT
 UPDATE,
@@ -137,13 +136,13 @@ CREATE TABLE IF NOT EXISTS ecommerce.orders (
     CONSTRAINT "FK_ORDERS_STATUS" FOREIGN KEY (status) REFERENCES ecommerce.order_statuses (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION
 ) TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS ecommerce.orders OWNER to admin;
+ALTER TABLE IF EXISTS ecommerce.orders OWNER to postgres;
 
 REVOKE ALL ON TABLE ecommerce.orders FROM api;
 
 REVOKE ALL ON TABLE ecommerce.orders FROM robotfw;
 
-GRANT ALL ON TABLE ecommerce.orders TO admin WITH GRANT OPTION;
+GRANT ALL ON TABLE ecommerce.orders TO postgres WITH GRANT OPTION;
 
 GRANT
 UPDATE,
@@ -169,13 +168,13 @@ CREATE TABLE IF NOT EXISTS ecommerce.order_items (
     CONSTRAINT "FK_ORDER_ITEM_ORDER" FOREIGN KEY (order_id) REFERENCES ecommerce.orders (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE CASCADE
 ) TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS ecommerce.order_items OWNER to admin;
+ALTER TABLE IF EXISTS ecommerce.order_items OWNER to postgres;
 
 REVOKE ALL ON TABLE ecommerce.order_items FROM api;
 
 REVOKE ALL ON TABLE ecommerce.order_items FROM robotfw;
 
-GRANT ALL ON TABLE ecommerce.order_items TO admin WITH GRANT OPTION;
+GRANT ALL ON TABLE ecommerce.order_items TO postgres WITH GRANT OPTION;
 
 GRANT
 UPDATE,

@@ -1,6 +1,5 @@
 /*
-It's assumed that "admin" administrator user exists in the PostgreSQL
-Connect to the created ecommerce DB as "admin" user and create following objects:
+It's assumed that "postgres" is a superuser and db.sql, tables.sql scrpts have been ran
 */
 
 /*--------- FUNCTION: ecommerce.rf_get_items ------------*/
@@ -24,12 +23,12 @@ BEGIN
 END;
 $BODY$;
 
-ALTER FUNCTION ecommerce.rf_get_items() OWNER TO admin;
+ALTER FUNCTION ecommerce.rf_get_items() OWNER TO postgres;
 
 REVOKE ALL ON FUNCTION ecommerce.rf_get_items() FROM PUBLIC;
 REVOKE ALL ON FUNCTION ecommerce.rf_get_items() FROM api;
 
-GRANT EXECUTE ON FUNCTION ecommerce.rf_get_items() TO admin WITH GRANT OPTION;
+GRANT EXECUTE ON FUNCTION ecommerce.rf_get_items() TO postgres WITH GRANT OPTION;
 GRANT EXECUTE ON FUNCTION ecommerce.rf_get_items() TO robotfw;
 
 /*--------- FUNCTION: ecommerce.get_customer_by ------------*/
@@ -70,12 +69,12 @@ BEGIN
 END;
 $BODY$;
 
-ALTER FUNCTION ecommerce.get_customer_by(character varying, character varying) OWNER TO admin;
+ALTER FUNCTION ecommerce.get_customer_by(character varying, character varying) OWNER TO postgres;
 
 REVOKE ALL ON FUNCTION ecommerce.get_customer_by(character varying, character varying) FROM PUBLIC;
 REVOKE ALL ON FUNCTION ecommerce.get_customer_by(character varying, character varying) FROM robotfw;
 
-GRANT EXECUTE ON FUNCTION ecommerce.get_customer_by(character varying, character varying) TO admin WITH GRANT OPTION;
+GRANT EXECUTE ON FUNCTION ecommerce.get_customer_by(character varying, character varying) TO postgres WITH GRANT OPTION;
 GRANT EXECUTE ON FUNCTION ecommerce.get_customer_by(character varying, character varying) TO api;
 
 /*--------- FUNCTION: ecommerce.get_customer_by_id ------------*/
@@ -101,12 +100,12 @@ BEGIN
 END;
 $BODY$;
 
-ALTER FUNCTION ecommerce.get_customer_by_id(uuid) OWNER TO admin;
+ALTER FUNCTION ecommerce.get_customer_by_id(uuid) OWNER TO postgres;
 
 REVOKE ALL ON FUNCTION ecommerce.get_customer_by_id(uuid) FROM PUBLIC;
 REVOKE ALL ON FUNCTION ecommerce.get_customer_by_id(uuid) FROM robotfw;
 
-GRANT EXECUTE ON FUNCTION ecommerce.get_customer_by_id(uuid) TO admin WITH GRANT OPTION;
+GRANT EXECUTE ON FUNCTION ecommerce.get_customer_by_id(uuid) TO postgres WITH GRANT OPTION;
 GRANT EXECUTE ON FUNCTION ecommerce.get_customer_by_id(uuid) TO api;
 
 /*--------- FUNCTION: ecommerce.create_customer ------------*/
@@ -157,10 +156,10 @@ BEGIN
 END;
 $BODY$;
 
-ALTER FUNCTION ecommerce.create_customer(jsonb) OWNER TO admin;
+ALTER FUNCTION ecommerce.create_customer(jsonb) OWNER TO postgres;
 
 REVOKE ALL ON FUNCTION ecommerce.create_customer(jsonb) FROM PUBLIC;
 REVOKE ALL ON FUNCTION ecommerce.create_customer(jsonb) FROM robotfw;
 
-GRANT EXECUTE ON FUNCTION ecommerce.create_customer(jsonb) TO admin WITH GRANT OPTION;
+GRANT EXECUTE ON FUNCTION ecommerce.create_customer(jsonb) TO postgres WITH GRANT OPTION;
 GRANT EXECUTE ON FUNCTION ecommerce.create_customer(jsonb) TO api;
