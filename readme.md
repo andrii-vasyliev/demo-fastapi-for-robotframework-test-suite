@@ -1,4 +1,12 @@
-# demo-fastapi-for-robotframework-test-suite
+# Demo API for Demo Robot Framework test suite
+
+**Table of contents**
+
+- [Demo API for Demo Robot Framework test suite](#demo-api-for-demo-robot-framework-test-suite)
+  - [Description](#description)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Usage](#usage)
 
 This is a RESTful API built with FastAPI for a demo Robot Framework test suite. It provides endpoints for managing customers and other e-commerce-related functionality.
 
