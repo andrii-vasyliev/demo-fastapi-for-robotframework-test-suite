@@ -73,6 +73,6 @@ Currently only customer management endpoint is implemented.
 
 6. You can now send requests to the API endpoints for various operations, such as:
 
-- `POST /api/customers` to create a new customer
-- `GET /api/customers/{customer_id}` to retrieve details of a specific customer
-- `GET /api/customers?name={customer_name}&email={customer_email}` to retrieve a list of customers by name and / or email
+   - `POST /api/customers` to create a new customer
+   - `GET /api/customers/{customer_id}` to retrieve details of a specific customer
+   - `GET /api/customers?name={customer_name}&email={customer_email}` to retrieve a list of customers by name and / or email
