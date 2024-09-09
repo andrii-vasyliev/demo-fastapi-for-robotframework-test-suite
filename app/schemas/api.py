@@ -19,11 +19,18 @@ class ItemSchema(BaseModel):
     @field_validator("name")
     @classmethod
     def name_validator(cls, v: str) -> str:
-        if not re.sub(r"[ \\/\.,;\-+()_%@!\'\"]", "", v.strip()).isalnum():
-            raise ValueError(
-                "Field 'name' cannot be empty and must contain only allowed chars"
-            )
-        return v.strip()
+        """
+        Validate name field
+        """
+        # Check if name is not empty and contains only allowed chars
+        name: str = v.strip()
+        if not name:
+            raise ValueError("Field 'name' cannot be empty")
+        if not re.sub(r"[ \\/\.,;\-+()_%@!\'\"]", "", name).isalnum():
+            raise ValueError("Field 'name' must contain only allowed chars")
+        if len(name) > 512:
+            raise ValueError("Field 'name' must not be greater than 512 characters")
+        return name
 
     model_config: ConfigDict = {
         "json_schema_extra": {
@@ -168,10 +175,17 @@ class CreateCustomerSchema(BaseModel):
     @field_validator("name")
     @classmethod
     def name_validator(cls, v: str) -> str:
-        if not re.sub(r"[ \\/\.'&,_\-+@]", "", v.strip()).isalnum():
-            raise ValueError(
-                "Field 'name' cannot be empty and must contain only allowed chars"
-            )
+        """
+        Validate name field
+        """
+        # Check if name is not empty and contains only allowed chars
+        name: str = v.strip()
+        if not name:
+            raise ValueError("Field 'name' cannot be empty")
+        if not re.sub(r"[ \\/\.'&,_\-+@]", "", name).isalnum():
+            raise ValueError("Field 'name' must contain only allowed chars")
+        if len(name) > 256:
+            raise ValueError("Field 'name' must not be greater than 256 characters")
         return v.strip()
 
     # fmt: off

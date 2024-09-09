@@ -67,19 +67,19 @@ Currently only customer management endpoint is implemented.
 
     `.venv\Scripts\activate`
 
-3. Navigate to the API application directory:
+3. Start the development server:
 
-   `cd app`
+    `python -m app.main`
 
-4. Start the development server:
+    or
 
-    `uvicorn main:app --reload`
+    `uvicorn app.main:app --reload`
 
     This will start the API server at `http://localhost:8000`.
 
-5. Navigate to `http://localhost:8000/api/docs` to access the interactive API documentation (provided by Swagger UI).
+4. Navigate to `http://localhost:8000/api/docs` to access the interactive API documentation (provided by Swagger UI).
 
-6. You can now send requests to the API endpoints for various operations, such as:
+5. You can now send requests to the API endpoints for various operations, such as:
 
    - `POST /api/customers` to create a new customer
    - `GET /api/customers/{customer_id}` to retrieve details of a specific customer

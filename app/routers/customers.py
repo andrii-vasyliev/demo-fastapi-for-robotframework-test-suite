@@ -1,8 +1,8 @@
 from pydantic import UUID4
 from fastapi import APIRouter, status
-from postgresql import Cursor
-from schemas.api import GetCustomerSchema, GetCustomersSchema, CreateCustomerSchema
-from crud import (
+from app.postgresql import Cursor
+from app.schemas.api import GetCustomerSchema, GetCustomersSchema, CreateCustomerSchema
+from app.crud import (
     db_get_customer_by_id,
     db_get_customers_by,
     db_create_customer,

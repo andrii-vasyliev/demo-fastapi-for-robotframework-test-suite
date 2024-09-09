@@ -6,10 +6,10 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, HTTPException, status
 from fastapi.responses import RedirectResponse, JSONResponse
 
-from config import settings
-from exceptions import AppException
-from postgresql import connection_manager
-from routers import customers_router
+from app.config import settings
+from app.exceptions import AppException, HTTP_NOT_FOUND
+from app.postgresql import connection_manager
+from app.routers import customers_router
 
 
 @asynccontextmanager
@@ -44,17 +44,9 @@ async def app_exception_handler(request: Request, exc: AppException) -> JSONResp
 async def http_404_exception_handler(
     request: Request, exc: HTTPException
 ) -> JSONResponse:
-    e = AppException(
-        exc.status_code,
-        [
-            "http",
-        ],
-        "Not found",
-        "not_found",
-    )
     return JSONResponse(
-        status_code=e.status_code,
-        content=e.content(),
+        status_code=HTTP_NOT_FOUND.status_code,
+        content=HTTP_NOT_FOUND.content(),
     )
 
 
@@ -72,9 +64,9 @@ if __name__ == "__main__":
     import uvicorn
 
     uvicorn.run(
-        app="main:app",
+        app="app.main:app",
+        workers=settings.workers,
+        reload=settings.reload if settings.workers <= 1 else False,
         host=settings.host,
         port=settings.port,
-        reload=settings.reload,
-        workers=settings.workers,
     )
