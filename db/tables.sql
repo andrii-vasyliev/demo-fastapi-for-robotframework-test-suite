@@ -105,6 +105,12 @@ CREATE TABLE IF NOT EXISTS ecommerce.customers (
     CONSTRAINT "PK_CUSTOMER_ID" PRIMARY KEY (id)
 ) TABLESPACE pg_default;
 
+CREATE INDEX IF NOT EXISTS "IDX_CUSTOMERS"
+    ON ecommerce.customers USING btree
+    (name COLLATE pg_catalog."default" ASC NULLS LAST, email COLLATE pg_catalog."default" ASC NULLS LAST)
+    WITH (deduplicate_items=False)
+    TABLESPACE pg_default;
+
 ALTER TABLE IF EXISTS ecommerce.customers OWNER to postgres;
 
 REVOKE ALL ON TABLE ecommerce.customers FROM api;
