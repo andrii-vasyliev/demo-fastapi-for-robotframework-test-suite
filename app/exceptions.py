@@ -27,6 +27,18 @@ class AppException(Exception):
         }
 
 
+MUST_ACCEPT_JSON: AppException = AppException(
+    status.HTTP_406_NOT_ACCEPTABLE,
+    [
+        "http",
+        "headers",
+        "Accept",
+    ],
+    "This endpoint only supports application/json responses",
+    "not_acceptable",
+)
+
+
 HTTP_NOT_FOUND: AppException = AppException(
     status.HTTP_404_NOT_FOUND,
     [
