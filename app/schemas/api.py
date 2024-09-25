@@ -186,7 +186,7 @@ class CreateCustomerSchema(BaseModel):
             raise ValueError("Field 'name' must contain only allowed chars")
         if len(name) > 256:
             raise ValueError("Field 'name' must not be greater than 256 characters")
-        return v.strip()
+        return name
 
     # fmt: off
     model_config: ConfigDict = {
