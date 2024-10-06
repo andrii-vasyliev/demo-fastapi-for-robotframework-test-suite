@@ -1,5 +1,25 @@
 """
 Custom Application exception
+
+This module defines custom exceptions for the application.
+It provides a base class `AppException` and several predefined exceptions
+for different scenarios, such as `MUST_ACCEPT_JSON`, `HTTP_NOT_FOUND`,
+`CREATE_CUSTOMER_NOT_FETCHED`, `CREATE_CUSTOMER_NOT_CREATED`,
+`CREATE_CUSTOMER_ALREADY_EXIST`, `GET_CUSTOMER_NOT_FETCHED`,
+`GET_CUSTOMER_NOT_FOUND_404`, and `GET_CUSTOMER_NOT_FOUND_500`.
+
+Each exception is an instance of the `AppException` class, which takes the following arguments:
+- `status_code`: The HTTP status code associated with the exception.
+- `location`: A list representing the location of the error in the request.
+- `message`: A descriptive message about the error.
+- `exc_type`: A string representing the type of exception.
+
+The `content` method returns a dictionary containing the error details in a format suitable for returning as the response body.
+
+These exceptions can be used throughout the application to raise and handle specific error scenarios.
+For example, in the `create_customer` function, you could raise `CREATE_CUSTOMER_NOT_FETCHED`
+if the customer data could not be fetched from the database. The `get_customer` function
+could raise `GET_CUSTOMER_NOT_FOUND_404` if the customer is not found in the database.
 """
 
 from typing import Any
@@ -9,7 +29,7 @@ from fastapi import status
 class AppException(Exception):
     def __init__(
         self, status_code: int, location: list[str | int], message: str, exc_type: str
-    ):
+    ) -> None:
         self.status_code: int = status_code
         self._location: list[str | int] = location
         self._msg: str = message
@@ -117,3 +137,16 @@ GET_CUSTOMER_BAD_REQUEST: AppException = AppException(
     "At least one search parameter is required",
     "bad_request",
 )
+
+__all__ = [
+    "AppException",
+    "MUST_ACCEPT_JSON",
+    "HTTP_NOT_FOUND",
+    "CREATE_CUSTOMER_NOT_FETCHED",
+    "CREATE_CUSTOMER_NOT_CREATED",
+    "CREATE_CUSTOMER_ALREADY_EXIST",
+    "GET_CUSTOMER_NOT_FETCHED",
+    "GET_CUSTOMER_NOT_FOUND_404",
+    "GET_CUSTOMER_NOT_FOUND_500",
+    "GET_CUSTOMER_BAD_REQUEST",
+]

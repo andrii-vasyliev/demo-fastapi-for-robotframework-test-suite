@@ -44,7 +44,7 @@ AS $BODY$
 DECLARE
 	customers json;
 BEGIN
-	IF NULLIF(customer_name, '') IS NULL AND (NULLIF(customer_email, '') IS NULL OR UPPER(customer_email) = 'ANY') THEN
+	IF NULLIF(customer_name, '') IS NULL AND (customer_email IS NULL OR UPPER(customer_email) IN ('', 'ANY')) THEN
 		RAISE assert_failure USING MESSAGE = 'At least one search parameter is required';
 	END IF;
 
@@ -89,6 +89,10 @@ AS $BODY$
 DECLARE
 	customer json;
 BEGIN
+	IF customer_id IS NULL THEN
+		RAISE assert_failure USING MESSAGE = 'Field required: "id"';
+	END IF;
+
 	SELECT json_object('id' VALUE c.id,
 						'name' VALUE c.name,
 						'email' VALUE c.email)

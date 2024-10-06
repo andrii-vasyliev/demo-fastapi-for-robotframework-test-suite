@@ -1,3 +1,12 @@
+"""
+This module provides a class `DatabaseConnectionManager` to manage the connection pool
+for PostgreSQL database connections. It includes methods to initialize the connection pool,
+open and close the pool, and obtain a cursor context manager.
+
+The `get_cursor` function is a dependency function that provides an asynchronous cursor
+context manager using the connection pool.
+"""
+
 import contextlib
 from typing import Any, Annotated, AsyncIterator
 from psycopg import AsyncCursor
@@ -66,3 +75,8 @@ async def get_cursor() -> AsyncIterator[AsyncCursor]:
 
 
 Cursor = Annotated[AsyncCursor, Depends(get_cursor)]
+
+__all__ = [
+    "connection_manager",
+    "Cursor",
+]

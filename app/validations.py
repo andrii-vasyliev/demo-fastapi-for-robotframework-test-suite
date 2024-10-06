@@ -1,3 +1,10 @@
+"""
+This module contains validation functions for the application.
+
+The `require_json_accept` function is a decorator that can be applied to any
+function that requires Accept application/json header set in the request.
+"""
+
 from functools import wraps
 from fastapi import Request
 from app.exceptions import MUST_ACCEPT_JSON
@@ -16,3 +23,6 @@ def require_json_accept(func):
         return await func(*args, **kwargs)
 
     return wrapper
+
+
+__all__ = ["require_json_accept"]

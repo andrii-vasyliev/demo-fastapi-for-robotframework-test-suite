@@ -1,5 +1,5 @@
 """
-Main API module
+Main API application module
 """
 
 from contextlib import asynccontextmanager
@@ -9,7 +9,7 @@ from fastapi.responses import RedirectResponse, JSONResponse
 from app.config import settings
 from app.exceptions import AppException, HTTP_NOT_FOUND
 from app.postgresql import connection_manager
-from app.routers import customers_router
+from app.routers import customers_router, health_router
 
 
 @asynccontextmanager
@@ -57,6 +57,7 @@ async def read_root() -> RedirectResponse:
 
 
 # Routers
+app.include_router(health_router, include_in_schema=False)
 app.include_router(customers_router)
 
 

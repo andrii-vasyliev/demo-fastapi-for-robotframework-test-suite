@@ -1,3 +1,10 @@
+"""
+This module contains functions to interact with the database.
+It includes functions to create a new customer, retrieve a customer by ID, and retrieve customers by name or email.
+The functions handle exceptions and raise appropriate exceptions based on the error cases.
+"""
+
+from typing import Any
 from pydantic import UUID4
 from psycopg import AsyncCursor
 from psycopg.errors import AssertFailure, NoDataFound
@@ -10,7 +17,11 @@ from app.exceptions import (
     GET_CUSTOMER_NOT_FOUND_404,
     GET_CUSTOMER_NOT_FOUND_500,
 )
-from app.schemas.api import CreateCustomerSchema, GetCustomerSchema, GetCustomersSchema
+from app.schemas import (
+    CreateCustomerSchema,
+    GetCustomerSchema,
+    GetCustomersSchema,
+)
 
 
 async def create_customer(
@@ -24,7 +35,7 @@ async def create_customer(
             ],
         )
 
-        record = await cursor.fetchone()
+        record: tuple[Any, ...] | None = await cursor.fetchone()
         if not record:
             raise CREATE_CUSTOMER_NOT_FETCHED
 
@@ -49,13 +60,15 @@ async def get_customer_by_id(
             ],
         )
 
-        record = await cursor.fetchone()
+        record: tuple[Any, ...] | None = await cursor.fetchone()
         if not record:
             raise GET_CUSTOMER_NOT_FETCHED
 
         customer: GetCustomerSchema = record[0]
     except Exception as e:
-        if isinstance(e, NoDataFound):
+        if isinstance(e, AssertFailure):
+            raise GET_CUSTOMER_BAD_REQUEST
+        elif isinstance(e, NoDataFound):
             raise GET_CUSTOMER_NOT_FOUND_404
         else:
             raise GET_CUSTOMER_NOT_FOUND_500
@@ -77,7 +90,7 @@ async def get_customers_by(
             ],
         )
 
-        record = await cursor.fetchone()
+        record: tuple[Any, ...] | None = await cursor.fetchone()
         if not record:
             raise GET_CUSTOMER_NOT_FETCHED
 
@@ -91,3 +104,10 @@ async def get_customers_by(
             raise GET_CUSTOMER_NOT_FOUND_500
 
     return customers
+
+
+__all__ = [
+    "create_customer",
+    "get_customer_by_id",
+    "get_customers_by",
+]

@@ -1,48 +1,18 @@
 """
-Definition of API entities
+This module defines the schemas for the /api/orders endpoint.
+
+The CreateOrderItemSchema class represents an order item to be created with fields for item_id and quantity.
+The GetOrderItemSchema class represents an order item to be returned with fields for id, item_id, name, price, and quantity.
+
+The CreateOrderSchema class represents an order to be created with fields for customer_id and items.
+The GetOrderSchema class represents an order to be returned with fields for id, customer_id, items, and created_at.
+The GetCustomerOrdersSchema class represents a list of customer's orders to be returned.
+
+Each class includes field validation and documentation examples for each field.
 """
 
-import re
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, EmailStr, UUID4, field_validator
-
-
-class ItemSchema(BaseModel):
-    """
-    Item entity
-    """
-
-    id: UUID4
-    name: str
-    price: float
-
-    @field_validator("name")
-    @classmethod
-    def name_validator(cls, v: str) -> str:
-        """
-        Validate name field
-        """
-        # Check if name is not empty and contains only allowed chars
-        name: str = v.strip()
-        if not name:
-            raise ValueError("Field 'name' cannot be empty")
-        if not re.sub(r"[ \\/\.,;\-+()_%@!\'\"]", "", name).isalnum():
-            raise ValueError("Field 'name' must contain only allowed chars")
-        if len(name) > 512:
-            raise ValueError("Field 'name' must not be greater than 512 characters")
-        return name
-
-    model_config: ConfigDict = {
-        "json_schema_extra": {
-            "examples": [
-                {
-                    "id": "00000000-0000-0000-0000-000000000000",
-                    "name": "Foo",
-                    "price": 42.0,
-                }
-            ]
-        },
-    }
+from pydantic import BaseModel, ConfigDict, UUID4, field_validator
 
 
 class CreateOrderItemSchema(BaseModel):
@@ -164,89 +134,6 @@ class GetOrderSchema(BaseModel):
     }
 
 
-class CreateCustomerSchema(BaseModel):
-    """
-    Create Customer request entity
-    """
-
-    name: str
-    email: EmailStr | None = None
-
-    @field_validator("name")
-    @classmethod
-    def name_validator(cls, v: str) -> str:
-        """
-        Validate name field
-        """
-        # Check if name is not empty and contains only allowed chars
-        name: str = v.strip()
-        if not name:
-            raise ValueError("Field 'name' cannot be empty")
-        if not re.sub(r"[ \\/\.'&,_\-+@]", "", name).isalnum():
-            raise ValueError("Field 'name' must contain only allowed chars")
-        if len(name) > 256:
-            raise ValueError("Field 'name' must not be greater than 256 characters")
-        return name
-
-    # fmt: off
-    model_config: ConfigDict = {
-        "extra": "forbid",
-        "json_schema_extra": {
-            "examples": [
-                {
-                    "name": "John Doe",
-                    "email": "john@example.com"
-                }
-            ]
-        }
-    }
-    # fmt: on
-
-
-class GetCustomerSchema(CreateCustomerSchema):
-    """
-    Get Customer response entity
-    """
-
-    id: UUID4
-
-    model_config: ConfigDict = {
-        "json_schema_extra": {
-            "examples": [
-                {
-                    "id": "00000000-0000-0000-0000-000000000000",
-                    "name": "John Doe",
-                    "email": "john@example.com",
-                }
-            ]
-        },
-    }
-
-
-class GetCustomersSchema(BaseModel):
-    """
-    Get Customers response entity
-    """
-
-    customers: list[GetCustomerSchema]
-
-    model_config: ConfigDict = {
-        "json_schema_extra": {
-            "examples": [
-                {
-                    "customers": [
-                        {
-                            "id": "00000000-0000-0000-0000-000000000000",
-                            "name": "John Doe",
-                            "email": "john@example.com",
-                        }
-                    ],
-                }
-            ]
-        },
-    }
-
-
 class GetCustomerOrdersSchema(BaseModel):
     """
     Get Customer Orders response entity
@@ -278,3 +165,12 @@ class GetCustomerOrdersSchema(BaseModel):
             ]
         },
     }
+
+
+__all__ = [
+    "CreateOrderItemSchema",
+    "GetOrderItemSchema",
+    "CreateOrderSchema",
+    "GetOrderSchema",
+    "GetCustomerOrdersSchema",
+]
