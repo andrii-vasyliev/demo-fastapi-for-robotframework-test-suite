@@ -8,7 +8,7 @@ from fastapi.responses import RedirectResponse, JSONResponse
 
 from app.config import settings
 from app.exceptions import AppException, HTTP_NOT_FOUND
-from app.postgresql import connection_manager
+from app.postgresql import setup_db_connection, open_db_connection, close_db_connection
 from app.routers import customers_router, health_router
 
 
@@ -18,10 +18,10 @@ async def lifespan(app: FastAPI):
     Function that handles startup and shutdown events.
     https://fastapi.tiangolo.com/advanced/events/
     """
-    connection_manager.setup(settings.database_url)
-    await connection_manager.open()
+    setup_db_connection(settings.database_url)
+    await open_db_connection()
     yield
-    await connection_manager.close()
+    await close_db_connection()
 
 
 app = FastAPI(

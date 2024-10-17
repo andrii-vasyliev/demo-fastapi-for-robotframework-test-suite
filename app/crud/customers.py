@@ -6,8 +6,8 @@ The functions handle exceptions and raise appropriate exceptions based on the er
 
 from typing import Any
 from pydantic import UUID4
-from psycopg import AsyncCursor
 from psycopg.errors import AssertFailure, NoDataFound
+from app.postgresql import get_cursor
 from app.exceptions import (
     CREATE_CUSTOMER_ALREADY_EXIST,
     CREATE_CUSTOMER_NOT_CREATED,
@@ -24,22 +24,20 @@ from app.schemas import (
 )
 
 
-async def create_customer(
-    cursor: AsyncCursor, customer_data: CreateCustomerSchema
-) -> GetCustomerSchema:
+async def create_customer(customer_data: CreateCustomerSchema) -> GetCustomerSchema:
     try:
-        await cursor.execute(
-            "select create_customer(%s)",
-            [
-                customer_data.model_dump_json(),
-            ],
-        )
+        async with get_cursor() as cursor:
+            await cursor.execute(
+                "select create_customer(%s)",
+                [
+                    customer_data.model_dump_json(),
+                ],
+            )
+            record: tuple[Any, ...] | None = await cursor.fetchone()
+            if not record:
+                raise CREATE_CUSTOMER_NOT_FETCHED
+            customer: GetCustomerSchema = record[0]
 
-        record: tuple[Any, ...] | None = await cursor.fetchone()
-        if not record:
-            raise CREATE_CUSTOMER_NOT_FETCHED
-
-        customer: GetCustomerSchema = record[0]
     except Exception as e:
         if isinstance(e, AssertFailure):
             raise CREATE_CUSTOMER_ALREADY_EXIST
@@ -49,22 +47,20 @@ async def create_customer(
     return customer
 
 
-async def get_customer_by_id(
-    cursor: AsyncCursor, customer_id: UUID4
-) -> GetCustomerSchema:
+async def get_customer_by_id(customer_id: UUID4) -> GetCustomerSchema:
     try:
-        await cursor.execute(
-            "select get_customer_by_id(%s)",
-            [
-                customer_id,
-            ],
-        )
+        async with get_cursor() as cursor:
+            await cursor.execute(
+                "select get_customer_by_id(%s)",
+                [
+                    customer_id,
+                ],
+            )
+            record: tuple[Any, ...] | None = await cursor.fetchone()
+            if not record:
+                raise GET_CUSTOMER_NOT_FETCHED
+            customer: GetCustomerSchema = record[0]
 
-        record: tuple[Any, ...] | None = await cursor.fetchone()
-        if not record:
-            raise GET_CUSTOMER_NOT_FETCHED
-
-        customer: GetCustomerSchema = record[0]
     except Exception as e:
         if isinstance(e, AssertFailure):
             raise GET_CUSTOMER_BAD_REQUEST
@@ -77,24 +73,23 @@ async def get_customer_by_id(
 
 
 async def get_customers_by(
-    cursor: AsyncCursor,
     name: str | None,
     email: str | None,
 ) -> GetCustomersSchema:
     try:
-        await cursor.execute(
-            "select get_customer_by(%s, %s)",
-            [
-                name,
-                email,
-            ],
-        )
+        async with get_cursor() as cursor:
+            await cursor.execute(
+                "select get_customer_by(%s, %s)",
+                [
+                    name,
+                    email,
+                ],
+            )
+            record: tuple[Any, ...] | None = await cursor.fetchone()
+            if not record:
+                raise GET_CUSTOMER_NOT_FETCHED
+            customers: GetCustomersSchema = record[0]
 
-        record: tuple[Any, ...] | None = await cursor.fetchone()
-        if not record:
-            raise GET_CUSTOMER_NOT_FETCHED
-
-        customers: GetCustomersSchema = record[0]
     except Exception as e:
         if isinstance(e, AssertFailure):
             raise GET_CUSTOMER_BAD_REQUEST
