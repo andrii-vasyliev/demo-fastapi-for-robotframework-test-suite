@@ -27,7 +27,6 @@ def setup_db_connection(db_url: str, pool_config: dict[str, Any] | None = None) 
 
 
 async def open_db_connection() -> None:
-    global __pool
     if __pool is None:
         raise Exception("PostgreSQL database is not initialized")
 
