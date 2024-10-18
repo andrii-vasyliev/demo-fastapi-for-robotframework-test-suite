@@ -18,9 +18,9 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     database_url: str = "postgresql://user:passwd@host:port/db"
-    debug: bool = True
-    reload: bool = True
-    host: str = "127.0.0.1"
+    debug: bool = False
+    reload: bool = False
+    host: str = "0.0.0.0"
     port: int = 8000
     workers: int = 4
     project_name: str = "Demo FastAPI project"

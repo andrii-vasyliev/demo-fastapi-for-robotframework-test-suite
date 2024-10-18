@@ -7,6 +7,7 @@
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
   - [Usage](#usage)
+  - [Docker](#docker)
 
 This is a RESTful API built with FastAPI for a demo Robot Framework test suite. It provides endpoints for managing customers and other e-commerce-related functionality.
 
@@ -84,3 +85,31 @@ Currently only customer management endpoint is implemented.
    - `POST /api/customers` to create a new customer
    - `GET /api/customers/{customer_id}` to retrieve details of a specific customer
    - `GET /api/customers?name={customer_name}&email={customer_email}` to retrieve a list of customers by name and / or email
+
+## Docker
+
+1. Build an image:
+
+    `docker build --tag demo--api-for-robot`
+
+2. Create and run container:
+
+    `docker run --detach --publish 8000:8000 --name=demo-api --restart=always demo--api-for-robot`
+
+3. Check container status:
+
+    `docker container inspect -f {{.State.Status}} demo-api`
+
+    Container status should be `running`.
+
+4. Check container logs:
+
+    `docker container logs demo-api`
+
+    Logs should not contain errors.
+
+5. To stop and remove container, use following commands:
+
+    `docker stop demo-api`
+
+    `docker rm demo-api`
