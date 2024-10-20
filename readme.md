@@ -90,7 +90,7 @@ Currently only customer management endpoint is implemented.
 
 1. Build an image:
 
-    `docker build --tag demo--api-for-robot`
+    `docker build --tag demo--api-for-robot .`
 
 2. Create and run container:
 
