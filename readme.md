@@ -88,27 +88,31 @@ Currently only customer management endpoint is implemented.
 
 ## Docker
 
-1. Build an image:
+1. Navigate to the project directory:
+
+    `cd demo-fastapi-for-robotframework-test-suite`
+
+2. Build an image:
 
     `docker build --tag demo--api-for-robot .`
 
-2. Create and run container:
+3. Create and run container:
 
     `docker run --detach --publish 8000:8000 --name=demo-api --restart=always demo--api-for-robot`
 
-3. Check container status:
+4. Check container status:
 
     `docker container inspect -f {{.State.Status}} demo-api`
 
     Container status should be `running`.
 
-4. Check container logs:
+5. Check container logs:
 
     `docker container logs demo-api`
 
     Logs should not contain errors.
 
-5. To stop and remove container, use following commands:
+6. To stop and remove container, use following commands:
 
     `docker stop demo-api`
 
