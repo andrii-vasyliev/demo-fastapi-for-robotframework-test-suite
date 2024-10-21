@@ -22,9 +22,11 @@ Reconnect to the database "ecommerce" as the "postgres" user
 \c ecommerce postgres;
 
 CREATE SCHEMA IF NOT EXISTS ecommerce AUTHORIZATION pg_database_owner;
+CREATE SCHEMA IF NOT EXISTS robotfw AUTHORIZATION pg_database_owner;
 GRANT ALL ON SCHEMA ecommerce TO pg_database_owner WITH GRANT OPTION;
+GRANT ALL ON SCHEMA robotfw TO pg_database_owner WITH GRANT OPTION;
 
-ALTER ROLE postgres IN DATABASE ecommerce SET search_path TO ecommerce, public;
+ALTER ROLE postgres IN DATABASE ecommerce SET search_path TO ecommerce, robotfw, public;
 
 -- create role "api" if it doesn't exist
 CREATE ROLE api WITH
@@ -50,7 +52,8 @@ CREATE ROLE robotfw WITH
   NOBYPASSRLS;
 
 ALTER ROLE robotfw WITH PASSWORD 'password';
-ALTER ROLE robotfw IN DATABASE ecommerce SET search_path TO ecommerce;
+ALTER ROLE robotfw IN DATABASE ecommerce SET search_path TO ecommerce, robotfw;
 
 GRANT USAGE ON SCHEMA ecommerce TO api;
 GRANT USAGE ON SCHEMA ecommerce TO robotfw;
+GRANT USAGE ON SCHEMA robotfw TO robotfw;

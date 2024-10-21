@@ -2,10 +2,10 @@
 It's assumed that "postgres" is a superuser and db.sql, tables.sql scrpts have been ran
 */
 
-/*--------- FUNCTION: ecommerce.rf_get_items ------------*/
-CREATE OR REPLACE FUNCTION ecommerce.rf_get_items(
+/*--------- FUNCTION: robotfw.get_catalog_items ------------*/
+CREATE OR REPLACE FUNCTION robotfw.get_catalog_items(
 	)
-    RETURNS TABLE(item json)
+    RETURNS TABLE(items json)
     LANGUAGE 'plpgsql'
     COST 100
     VOLATILE PARALLEL UNSAFE
@@ -23,13 +23,13 @@ BEGIN
 END;
 $BODY$;
 
-ALTER FUNCTION ecommerce.rf_get_items() OWNER TO postgres;
+ALTER FUNCTION robotfw.get_catalog_items() OWNER TO postgres;
 
-REVOKE ALL ON FUNCTION ecommerce.rf_get_items() FROM PUBLIC;
-REVOKE ALL ON FUNCTION ecommerce.rf_get_items() FROM api;
+REVOKE ALL ON FUNCTION robotfw.get_catalog_items() FROM PUBLIC;
+REVOKE ALL ON FUNCTION robotfw.get_catalog_items() FROM api;
 
-GRANT EXECUTE ON FUNCTION ecommerce.rf_get_items() TO postgres WITH GRANT OPTION;
-GRANT EXECUTE ON FUNCTION ecommerce.rf_get_items() TO robotfw;
+GRANT EXECUTE ON FUNCTION robotfw.get_catalog_items() TO postgres WITH GRANT OPTION;
+GRANT EXECUTE ON FUNCTION robotfw.get_catalog_items() TO robotfw;
 
 /*--------- FUNCTION: ecommerce.get_customer_by ------------*/
 -- DROP FUNCTION IF EXISTS ecommerce.get_customer_by(character varying, character varying);
