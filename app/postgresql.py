@@ -40,8 +40,6 @@ async def close_db_connection() -> None:
     global __pool
     if __pool is None:
         raise Exception("PostgreSQL database is not initialized")
-    if __pool is None:
-        raise Exception("PostgreSQL database is not initialized")
 
     try:
         await __pool.close()
