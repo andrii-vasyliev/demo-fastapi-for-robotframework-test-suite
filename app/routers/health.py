@@ -34,7 +34,7 @@ router = APIRouter(
 )
 async def health(request: Request) -> HealthSchema:
     """
-    Health Check
+    Service health Check
     """
     status: HealthStatus = HealthStatus.UP
     timestamp: datetime | None = None

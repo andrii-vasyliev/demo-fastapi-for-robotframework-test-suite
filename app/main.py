@@ -9,7 +9,7 @@ from fastapi.responses import RedirectResponse, JSONResponse
 from app.config import settings
 from app.exceptions import AppException, HTTP_NOT_FOUND
 from app.postgresql import setup_db_connection, open_db_connection, close_db_connection
-from app.routers import customers_router, health_router
+from app.routers import customers_router, health_router, ping_router
 
 
 @asynccontextmanager
@@ -57,6 +57,7 @@ async def read_root() -> RedirectResponse:
 
 
 # Routers
+app.include_router(ping_router, include_in_schema=False)
 app.include_router(health_router, include_in_schema=False)
 app.include_router(customers_router)
 
