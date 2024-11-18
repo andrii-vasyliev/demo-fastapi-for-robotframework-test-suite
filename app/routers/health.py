@@ -32,9 +32,14 @@ router = APIRouter(
     status_code=status.HTTP_200_OK,
     include_in_schema=False,
 )
-async def health(request: Request) -> HealthSchema:
+async def health() -> HealthSchema:
     """
-    Service health Check
+    Health check endpoint.
+    Returns a JSON response with the status of the application and the current timestamp of the database if it is accessible.
+    If the database connection is not working, the status will be `PG_DOWN` and the timestamp will be `None`.
+
+    Returns:
+        HealthSchema: A schema containing the status of the application and the current timestamp of the database if it is accessible.
     """
     status: HealthStatus = HealthStatus.UP
     timestamp: datetime | None = None

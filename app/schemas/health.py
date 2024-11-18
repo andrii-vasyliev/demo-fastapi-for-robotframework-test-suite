@@ -20,7 +20,11 @@ class HealthStatus(StrEnum):
 
 class HealthSchema(BaseModel):
     """
-    Health check entity
+    Health check object.
+
+    Attributes:
+        status (HealthStatus): The health status of the application.
+        timestamp (datetime | None): The time when the health check was performed.
     """
 
     status: HealthStatus

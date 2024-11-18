@@ -14,7 +14,7 @@ from pydantic import BaseModel, ConfigDict, EmailStr, UUID4, field_validator
 
 class CreateCustomerSchema(BaseModel):
     """
-    Create Customer request entity
+    Create Customer request object
     """
 
     name: str
@@ -53,7 +53,7 @@ class CreateCustomerSchema(BaseModel):
 
 class GetCustomerSchema(CreateCustomerSchema):
     """
-    Get Customer response entity
+    Get Customer response object
     """
 
     id: UUID4
@@ -73,7 +73,7 @@ class GetCustomerSchema(CreateCustomerSchema):
 
 class GetCustomersSchema(BaseModel):
     """
-    Get Customers response entity
+    Get Customers response object
     """
 
     customers: list[GetCustomerSchema]

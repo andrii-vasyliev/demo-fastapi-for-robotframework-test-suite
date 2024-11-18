@@ -11,6 +11,19 @@ from app.exceptions import MUST_ACCEPT_JSON
 
 
 def require_json_accept(func):
+    """
+    Decorator function that checks if the client accepts JSON response.
+
+    Args:
+        func (callable): The function to be decorated.
+
+    Returns:
+        callable: The decorated function.
+
+    Raises:
+        MUST_ACCEPT_JSON: If the client doesn't accept JSON response.
+    """
+
     @wraps(func)
     async def wrapper(*args, **kwargs):
         request: Request | None = kwargs.get("request")

@@ -13,6 +13,20 @@ __pool: AsyncConnectionPool | None = None
 
 
 def setup_db_connection(db_url: str, pool_config: dict[str, Any] | None = None) -> None:
+    """
+    Initializes the asynchronous connection pool for PostgreSQL databases.
+
+    Args:
+        db_url (str): The URL of the PostgreSQL database.
+        pool_config (dict[str, Any] | None, optional): Configuration options for the connection pool.
+            If not provided, default values will be used.
+
+    Raises:
+        Exception: If the connection pool is already initialized.
+
+    Example:
+        setup_db_connection("postgresql://user:password@localhost/dbname", {"min_size": 1, "max_size": 20})
+    """
     global __pool
     if __pool is not None:
         raise Exception("PostgreSQL database is already initialized")
@@ -27,6 +41,12 @@ def setup_db_connection(db_url: str, pool_config: dict[str, Any] | None = None) 
 
 
 async def open_db_connection() -> None:
+    """
+    Opens the connection pool for PostgreSQL databases.
+
+    Raises:
+        Exception: If the connection pool is not initialized or unable to open the pool.
+    """
     if __pool is None:
         raise Exception("PostgreSQL database is not initialized")
 
@@ -37,6 +57,12 @@ async def open_db_connection() -> None:
 
 
 async def close_db_connection() -> None:
+    """
+    Closes the connection pool for PostgreSQL databases.
+
+    Raises:
+        Exception: If the connection pool is not initialized or unable to close the pool.
+    """
     global __pool
     if __pool is None:
         raise Exception("PostgreSQL database is not initialized")
@@ -51,6 +77,15 @@ async def close_db_connection() -> None:
 
 @contextlib.asynccontextmanager
 async def get_cursor() -> AsyncIterator[AsyncCursor]:
+    """
+    Asynchronously obtains a cursor from the connection pool for PostgreSQL databases.
+
+    Yields:
+        AsyncCursor: A cursor object for executing SQL queries.
+
+    Raises:
+        Exception: If the connection pool is not initialized or unable to obtain a cursor.
+    """
     if __pool is None:
         raise Exception("PostgreSQL database is not initialized")
 

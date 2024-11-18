@@ -17,7 +17,7 @@ from pydantic import BaseModel, ConfigDict, UUID4, field_validator
 
 class CreateOrderItemSchema(BaseModel):
     """
-    Create Order Item request entity
+    Create Order Item request object
     """
 
     item_id: UUID4
@@ -45,7 +45,7 @@ class CreateOrderItemSchema(BaseModel):
 
 class GetOrderItemSchema(CreateOrderItemSchema):
     """
-    Get Order Item response entity
+    Get Order Item response object
     """
 
     id: UUID4
@@ -69,7 +69,7 @@ class GetOrderItemSchema(CreateOrderItemSchema):
 
 class CreateOrderSchema(BaseModel):
     """
-    Create Order request entity
+    Create Order request object
     """
 
     customer_id: UUID4
@@ -104,7 +104,7 @@ class CreateOrderSchema(BaseModel):
 
 class GetOrderSchema(BaseModel):
     """
-    Get Order response entity
+    Get Order response object
     """
 
     id: UUID4
@@ -136,7 +136,7 @@ class GetOrderSchema(BaseModel):
 
 class GetCustomerOrdersSchema(BaseModel):
     """
-    Get Customer Orders response entity
+    Get Customer Orders response object
     """
 
     orders: list[GetOrderSchema]

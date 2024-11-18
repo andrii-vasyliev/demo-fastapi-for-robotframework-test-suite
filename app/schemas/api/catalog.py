@@ -11,7 +11,7 @@ from pydantic import BaseModel, ConfigDict, UUID4, field_validator
 
 class ItemSchema(BaseModel):
     """
-    Item entity
+    Item object
     """
 
     id: UUID4

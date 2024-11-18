@@ -1,5 +1,5 @@
 """
-This module contains the ping router for the API.
+This module contains the availability check endpoint.
 It provides a simple endpoint to check if the API is running and responding.
 The endpoint is accessible at `/ping` and `/ping/` (with or without a trailing slash).
 """
@@ -26,9 +26,13 @@ router = APIRouter(
     status_code=status.HTTP_204_NO_CONTENT,
     include_in_schema=False,
 )
-async def ping(request: Request) -> Any:
+async def ping() -> Any:
     """
-    Simple service availability check
+    Availability check endpoint.
+    Returns a 204 No Content response if the API is running and responding.
+
+    Returns:
+        Response: A 204 No Content response.
     """
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
