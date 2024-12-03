@@ -52,11 +52,10 @@ async def create_customer(customer_data: CreateCustomerSchema) -> GetCustomerSch
                 raise CREATE_CUSTOMER_NOT_FETCHED
             customer: GetCustomerSchema = record[0]
 
+    except AssertFailure:
+        raise CREATE_CUSTOMER_ALREADY_EXIST
     except Exception as e:
-        if isinstance(e, AssertFailure):
-            raise CREATE_CUSTOMER_ALREADY_EXIST
-        else:
-            raise CREATE_CUSTOMER_NOT_CREATED
+        raise CREATE_CUSTOMER_NOT_CREATED
 
     return customer
 
@@ -90,13 +89,12 @@ async def get_customer_by_id(customer_id: UUID4) -> GetCustomerSchema:
                 raise GET_CUSTOMER_NOT_FETCHED
             customer: GetCustomerSchema = record[0]
 
+    except AssertFailure:
+        raise GET_CUSTOMER_BAD_REQUEST
+    except NoDataFound:
+        raise GET_CUSTOMER_NOT_FOUND_404
     except Exception as e:
-        if isinstance(e, AssertFailure):
-            raise GET_CUSTOMER_BAD_REQUEST
-        elif isinstance(e, NoDataFound):
-            raise GET_CUSTOMER_NOT_FOUND_404
-        else:
-            raise GET_CUSTOMER_NOT_FOUND_500
+        raise GET_CUSTOMER_NOT_FOUND_500
 
     return customer
 
@@ -135,13 +133,12 @@ async def get_customers_by(
                 raise GET_CUSTOMER_NOT_FETCHED
             customers: GetCustomersSchema = record[0]
 
+    except AssertFailure:
+        raise GET_CUSTOMER_BAD_REQUEST
+    except NoDataFound:
+        raise GET_CUSTOMER_NOT_FOUND_404
     except Exception as e:
-        if isinstance(e, AssertFailure):
-            raise GET_CUSTOMER_BAD_REQUEST
-        elif isinstance(e, NoDataFound):
-            raise GET_CUSTOMER_NOT_FOUND_404
-        else:
-            raise GET_CUSTOMER_NOT_FOUND_500
+        raise GET_CUSTOMER_NOT_FOUND_500
 
     return customers
 
