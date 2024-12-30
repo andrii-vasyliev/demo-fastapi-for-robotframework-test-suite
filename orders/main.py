@@ -6,13 +6,13 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, HTTPException, status
 from fastapi.responses import RedirectResponse, JSONResponse
 
-from api.exceptions import AppException, HTTP_NOT_FOUND
-from api.database.postgresql import (
+from common.exceptions import AppException, HTTP_NOT_FOUND
+from common.database.postgresql import (
     init_db_connection,
     open_db_connection,
     close_db_connection,
 )
-from api.management.routers import health_router, ping_router
+from common.management.routers import health_router, ping_router
 
 from orders.config import settings
 

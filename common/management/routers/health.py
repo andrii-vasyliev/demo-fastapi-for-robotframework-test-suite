@@ -10,8 +10,8 @@ The endpoint is accessible at `/health` and `/health/` (with or without a traili
 from datetime import datetime
 from typing import Any
 from fastapi import APIRouter, status
-from api.database.postgresql import get_cursor
-from api.management.schemas import HealthSchema, HealthStatus
+from common.database.postgresql import get_cursor
+from common.management.schemas import HealthSchema, HealthStatus
 
 
 router = APIRouter(

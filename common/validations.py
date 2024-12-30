@@ -7,7 +7,7 @@ function that requires Accept application/json header set in the request.
 
 from functools import wraps
 from fastapi import Request
-from api.exceptions import MUST_ACCEPT_JSON
+from common.exceptions import MUST_ACCEPT_JSON
 
 
 def require_json_accept(func):

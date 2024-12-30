@@ -7,7 +7,7 @@ The functions handle exceptions and raise appropriate exceptions based on the er
 from typing import Any
 from pydantic import UUID4
 from psycopg.errors import AssertFailure, NoDataFound
-from api.database.postgresql import get_cursor
+from common.database.postgresql import get_cursor
 from customers.exceptions import (
     CREATE_CUSTOMER_ALREADY_EXIST,
     CREATE_CUSTOMER_NOT_CREATED,

@@ -7,7 +7,7 @@ The routes return the appropriate response data using schemas for the request da
 
 from pydantic import UUID4
 from fastapi import APIRouter, Request, status
-from api.validations import require_json_accept
+from common.validations import require_json_accept
 from customers.schemas import (
     GetCustomerSchema,
     GetCustomersSchema,

@@ -3,7 +3,7 @@ This module defines custom exceptions for the application for different scenario
 ...
 """
 
-from api.exceptions import AppException
+from common.exceptions import AppException
 from fastapi import status
 
 
