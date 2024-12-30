@@ -32,7 +32,7 @@ Currently only customer management endpoint is implemented.
 
     `cd demo-fastapi-for-robotframework-test-suite`
 
-3. Create database, schema, roles, tables and functions using scripts provided in the `demo-fastapi-for-robotframework-test-suite/db`
+3. Create database, schema, roles, tables and functions using scripts provided in the `demo-fastapi-for-robotframework-test-suite/db_scripts`
 
 4. Create a virtual environment and activate it:
 
