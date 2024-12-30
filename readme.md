@@ -94,11 +94,11 @@ Currently only customer management endpoint is implemented.
 
 2. Build an image:
 
-    `docker build -f customers/Dockerfile --tag demo--customers-api-for-robot .`
+    `docker build -f customers/Dockerfile --tag demo--customers-api .`
 
 3. Create and run container:
 
-    `docker run --detach --publish 8000:8000 --name=demo--customers-api --restart=always demo--customers-api-for-robot`
+    `docker run --detach --publish 8000:8000 --name=demo--customers-api --restart=unless-stopped demo--customers-api`
 
 4. Check container status:
 
@@ -112,8 +112,10 @@ Currently only customer management endpoint is implemented.
 
     Logs should not contain errors.
 
-6. To stop and remove container, use following commands:
+6. To stop and remove container and image, use following commands:
 
     `docker stop demo--customers-api`
 
     `docker rm demo--customers-api`
+
+    `docker image rm demo--customers-api`
