@@ -2,18 +2,32 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: FastAPI",
+            "name": "Python: FastAPI | Customers",
             "type": "debugpy",
             "request": "launch",
             "cwd": "${workspaceFolder}",
             "module": "uvicorn",
             "args": [
-                "app.main:app",
+                "customers.main:app",
                 "--reload",
                 "--port",
                 "8000"
             ],
             "env": {}
-        }
+        },
+        {
+            "name": "Python: FastAPI | Orders",
+            "type": "debugpy",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "module": "uvicorn",
+            "args": [
+                "orders.main:app",
+                "--reload",
+                "--port",
+                "8000"
+            ],
+            "env": {}
+        },
     ]
 }

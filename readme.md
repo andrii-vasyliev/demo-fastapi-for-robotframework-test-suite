@@ -70,11 +70,11 @@ Currently only customer management endpoint is implemented.
 
 3. Start the development server:
 
-    `python -m app.main`
+    `python -m customers.main`
 
     or
 
-    `uvicorn app.main:app --reload`
+    `uvicorn customers.main:app --reload`
 
     This will start the API server at `http://localhost:8000`.
 
@@ -94,26 +94,26 @@ Currently only customer management endpoint is implemented.
 
 2. Build an image:
 
-    `docker build --tag demo--api-for-robot .`
+    `docker build -f customers/Dockerfile --tag demo--customers-api-for-robot .`
 
 3. Create and run container:
 
-    `docker run --detach --publish 8000:8000 --name=demo-api --restart=always demo--api-for-robot`
+    `docker run --detach --publish 8000:8000 --name=demo--customers-api --restart=always demo--customers-api-for-robot`
 
 4. Check container status:
 
-    `docker container inspect -f {{.State.Status}} demo-api`
+    `docker container inspect -f {{.State.Status}} demo--customers-api`
 
     Container status should be `running`.
 
 5. Check container logs:
 
-    `docker container logs demo-api`
+    `docker container logs demo--customers-api`
 
     Logs should not contain errors.
 
 6. To stop and remove container, use following commands:
 
-    `docker stop demo-api`
+    `docker stop demo--customers-api`
 
-    `docker rm demo-api`
+    `docker rm demo--customers-api`
